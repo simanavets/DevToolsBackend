@@ -12,14 +12,16 @@ import java.util.NoSuchElementException;
 public class OrderService {
 
     private final OrderRepository repository;
+    private final ClientService clientService;
 
-    public OrderService(OrderRepository repository) {
+    public OrderService(OrderRepository repository, ClientService clientService) {
         this.repository = repository;
+        this.clientService = clientService;
     }
 
     public Order findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(String.format("No order with id = %s", id)));
+                .orElseThrow(() -> new NoSuchElementException("No order with id = %d".formatted(id)));
     }
     
     public List<Order> findAll() {
@@ -28,9 +30,7 @@ public class OrderService {
 
     public Order save(Order order) {
         if (order.getClient() == null) {
-            Client defaultClient = Client.builder()
-                    .email("%d.no.client@default.com".formatted(order.getId()))
-                    .build();
+            Client defaultClient = clientService.findById(1L);
             order.setClient(defaultClient);
         }
         return repository.save(order);

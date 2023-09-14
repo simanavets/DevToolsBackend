@@ -1,4 +1,4 @@
-package com.devtoolsbackend;
+package com.devtoolsbackend.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeAll;

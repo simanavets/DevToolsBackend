@@ -1,6 +1,7 @@
 package com.devtoolsbackend.service;
 
 import com.devtoolsbackend.model.Order;
+import com.devtoolsbackend.model.OrderStatus;
 import com.devtoolsbackend.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,15 +31,14 @@ public class OrderService {
         return repository.save(order);
     }
 
-    public Order updateStatus(Order orderWithNewStatus) {
-        var orderId = orderWithNewStatus.getId();
-        var order = repository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Incorrect order with id = %d".formatted(orderId)));
+    public Order updateStatus(Long id, OrderStatus newStatus) {
+        var order = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No order with id = %d".formatted(id)));
 
-        order.setStatus(orderWithNewStatus.getStatus());
+        order.setStatus(newStatus);
         return repository.save(order);
     }
-    
+
     public void delete(Long id) {
         repository.deleteById(id);
     }

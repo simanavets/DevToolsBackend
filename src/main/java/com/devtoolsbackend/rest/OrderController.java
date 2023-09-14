@@ -36,8 +36,17 @@ public class OrderController {
         return service.save(order);
     }
 
-    @PutMapping
-    public Order updateStatus(@RequestBody @Valid Order orderWithNewStatus) {
-        return service.updateStatus(orderWithNewStatus);
+    @PutMapping("/{id}")
+    public Order updateStatus(@Positive(message = "Id should be more than 1")
+                              @PathVariable Long id, @RequestBody @Valid Order order) {
+        return service.updateStatus(id, order.getStatus());
+//        return service.updateStatus(id, order);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@Positive(message = "Id should be more than 1")
+                           @PathVariable Long id) {
+        service.delete(id);
     }
 }

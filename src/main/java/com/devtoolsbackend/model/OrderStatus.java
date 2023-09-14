@@ -1,5 +1,5 @@
 package com.devtoolsbackend.model;
 
-enum OrderStatus {
+public enum OrderStatus {
     OPENED, IN_PROGRESS, DELIVERED
 }

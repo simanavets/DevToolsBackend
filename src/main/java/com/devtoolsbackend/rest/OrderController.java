@@ -2,20 +2,22 @@ package com.devtoolsbackend.rest;
 
 import com.devtoolsbackend.model.Order;
 import com.devtoolsbackend.service.OrderService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/orders")
+@Validated
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService service;
-
-    public OrderController(OrderService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     public Order findById(@Positive(message = "Id should be more than 1")
@@ -29,7 +31,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order save(@RequestBody Order order) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Order save(@RequestBody @Valid Order order) {
         return service.save(order);
+    }
+
+    @PutMapping
+    public Order updateStatus(@RequestBody @Valid Order orderWithNewStatus) {
+        return service.updateStatus(orderWithNewStatus);
     }
 }

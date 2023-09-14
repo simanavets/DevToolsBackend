@@ -1,6 +1,7 @@
 package com.devtoolsbackend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Order {
     private String description;
     
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status cannot be null or empty.")
     private OrderStatus status;
     
     @ManyToOne

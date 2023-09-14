@@ -2,20 +2,20 @@ package com.devtoolsbackend.rest;
 
 import com.devtoolsbackend.model.Client;
 import com.devtoolsbackend.service.ClientService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/clients")
 @Validated
+@RequiredArgsConstructor
 public class ClientController {
 
     private final ClientService service;
-
-    public ClientController(ClientService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     public Client getClientById(@Positive(message = "Id should be more than 1")
@@ -24,7 +24,8 @@ public class ClientController {
     }
 
     @PostMapping
-    public Client saveClient(@RequestBody Client client) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Client saveClient(@RequestBody @Valid Client client) {
         return service.saveClient(client);
     }
 }

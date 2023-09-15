@@ -1,6 +1,7 @@
 package com.orderservice.rest;
 
 import com.orderservice.model.Order;
+import com.orderservice.service.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,6 @@ public class OrderController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public Order save(@RequestBody @Valid Order order) {
         return service.save(order);
     }
@@ -39,7 +39,6 @@ public class OrderController {
     public Order updateStatus(@Positive(message = "Id should be more than 1")
                               @PathVariable Long id, @RequestBody @Valid Order order) {
         return service.updateStatus(id, order.getStatus());
-//        return service.updateStatus(id, order);
     }
 
     @DeleteMapping("/{id}")

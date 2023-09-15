@@ -19,12 +19,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    private Long clientId;
+    
     private String description;
     
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Status cannot be null or empty.")
     private OrderStatus status;
     
-    @ManyToOne
-    private Client client;
 }

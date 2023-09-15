@@ -23,6 +23,11 @@ public class ClientController {
         return service.findById(id);
     }
 
+    @GetMapping("/default")
+    public Long getDefaultClientId() {
+        return service.createDefaultClient().getId();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Client saveClient(@RequestBody @Valid Client client) {
